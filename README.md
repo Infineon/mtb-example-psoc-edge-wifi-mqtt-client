@@ -21,7 +21,7 @@ This code example has a three project structure: CM33 secure, CM33 non-secure, a
 
 [View this README on GitHub.](https://github.com/Infineon/mtb-example-psoc-edge-wifi-mqtt-client)
 
-[Provide feedback on this code example.](https://cypress.co1.qualtrics.com/jfe/form/SV_1NTns53sK2yiljn?Q_EED=eyJVbmlxdWUgRG9jIElkIjoiQ0UyMzk1MzgiLCJTcGVjIE51bWJlciI6IjAwMi0zOTUzOCIsIkRvYyBUaXRsZSI6IlBTT0MmdHJhZGU7IEVkZ2UgTUNVOiBXaS1GaSBNUVRUIGNsaWVudCIsInJpZCI6InJhbWFrcmlzaG5hcCIsIkRvYyB2ZXJzaW9uIjoiMi4wLjAiLCJEb2MgTGFuZ3VhZ2UiOiJFbmdsaXNoIiwiRG9jIERpdmlzaW9uIjoiTUNEIiwiRG9jIEJVIjoiSUNXIiwiRG9jIEZhbWlseSI6IlBTT0MifQ==)
+[Provide feedback on this code example.](https://cypress.co1.qualtrics.com/jfe/form/SV_1NTns53sK2yiljn?Q_EED=eyJVbmlxdWUgRG9jIElkIjoiQ0UyMzk1MzgiLCJTcGVjIE51bWJlciI6IjAwMi0zOTUzOCIsIkRvYyBUaXRsZSI6IlBTT0MmdHJhZGU7IEVkZ2UgTUNVOiBXaS1GaSBNUVRUIGNsaWVudCIsInJpZCI6InJhbWFrcmlzaG5hcCIsIkRvYyB2ZXJzaW9uIjoiMi4xLjAiLCJEb2MgTGFuZ3VhZ2UiOiJFbmdsaXNoIiwiRG9jIERpdmlzaW9uIjoiTUNEIiwiRG9jIEJVIjoiSUNXIiwiRG9jIEZhbWlseSI6IlBTT0MifQ==)
 
 See the [Design and implementation](docs/design_and_implementation.md) for the functional description of this code example.
 
@@ -46,6 +46,7 @@ See the [Design and implementation](docs/design_and_implementation.md) for the f
 
 - [PSOC&trade; Edge E84 Evaluation Kit](https://www.infineon.com/KIT_PSE84_EVAL) (`KIT_PSE84_EVAL_EPC2`) – Default value of `TARGET`
 - [PSOC&trade; Edge E84 Evaluation Kit](https://www.infineon.com/KIT_PSE84_EVAL) (`KIT_PSE84_EVAL_EPC4`)
+- [PSOC&trade; Edge E84 AI Kit](https://www.infineon.com/KIT_PSE84_AI) (`KIT_PSE84_AI`)
 
 
 ## Hardware setup
@@ -56,6 +57,7 @@ Ensure the following jumper and pin configuration on board.
 - BOOT SW must be in the HIGH/ON position
 - J20 and J21 must be in the tristate/not connected (NC) position
 
+> **Note:** This hardware setup is not required for KIT_PSE84_AI.
 
 ## Software setup
 
@@ -106,9 +108,9 @@ See [Using the code example](docs/using_the_code_example.md) for instructions on
 
    ![](images/application-initialization.png)
 
-5. Once the initialization is complete, confirm that the message "**Press the user button1(SW2) to publish "TURN ON"/"TURN OFF" on the topic 'ledstatus'...**" is printed on the UART terminal. This message may vary depending on the MQTT topic and publish messages configured in the *mqtt_client_config.h* file
+5. Once the initialization is complete, confirm that the message "**Press the USER BTN1 to publish "TURN ON"/"TURN OFF" on the topic 'ledstatus'...**" is printed on the UART terminal. This message may vary depending on the MQTT topic and publish messages configured in the *mqtt_client_config.h* file
 
-6. Press the user button 1 (SW2) on the kit to toggle the user LED1 state
+6. Press the USER BTN1 on the kit to toggle the user LED1 state
 
 7. Confirm the user LED1 state is toggled and the messages received on the subscribed topic are printed on the UART terminal
 
@@ -177,7 +179,7 @@ Alternatively, you can individually verify the publish and subscribe functionali
  1. Set up the MQTT device (also known as a **Thing**) in the AWS IoT core as described in the [Getting started with AWS IoT tutorial](https://docs.aws.amazon.com/iot/latest/developerguide/iot-gs.html).
 
       > **Note:** While setting up your device, ensure that the policy associated with this device permits all MQTT operations (**iot:Connect**, **iot:Publish**, **iot:Receive**, and **iot:Subscribe**) for the resource used by this device. For testing purposes, it is recommended to have the following policy document, which allows all **MQTT Policy Actions** on all **Amazon Resource Names (ARNs)**
-   
+
       ```
       {
          "Version": "2012-10-17",
@@ -246,6 +248,7 @@ Document title: *CE239538* – *PSOC&trade; Edge MCU: Wi-Fi MQTT client*
  ------- | ---------------------
  1.x.0   | New code example <br> Early access release
  2.0.0   | GitHub release
+ 2.1.0   | Added KIT_PSE84_AI BSP support
 <br>
 
 

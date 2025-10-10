@@ -166,15 +166,17 @@ static void button_interrupt_handler(void)
         }
     }
 
-    /* CYBSP_USER_BTN1 (SW2) and CYBSP_USER_BTN2 (SW4) share the same port and
-     * hence they share the same NVIC IRQ line. Since both the buttons are
-     * configured for falling edge interrupt in the BSP, pressing any button
-     * will trigger the execution of this ISR. Therefore, we must clear the
-     * interrupt flag of the user button (CYBSP_USER_BTN2) to avoid issues in
-     * case if user presses BTN2 by mistake.
-     */
-    Cy_GPIO_ClearInterrupt(CYBSP_USER_BTN2_PORT, CYBSP_USER_BTN2_PIN);
-    NVIC_ClearPendingIRQ(CYBSP_USER_BTN2_IRQ);
+   /* CYBSP_USER_BTN1 (SW2) and CYBSP_USER_BTN2 (SW4) share the same port in
+    * the PSOC™ Edge E84 evaluation kit and hence they share the same NVIC IRQ
+    * line. Since both the buttons are configured for falling edge interrupt in
+    * the BSP, pressing any button will trigger the execution of this ISR. Therefore,
+    * we must clear the interrupt flag of the user button (CYBSP_USER_BTN2) to avoid
+    * issues in case if user presses BTN2 by mistake.
+    */
+    #if defined(CYBSP_USER_BTN2_ENABLED)
+        Cy_GPIO_ClearInterrupt(CYBSP_USER_BTN2_PORT, CYBSP_USER_BTN2_PIN);
+        NVIC_ClearPendingIRQ(CYBSP_USER_BTN2_IRQ);
+    #endif
 }
 
 /*******************************************************************************
@@ -202,9 +204,11 @@ void user_button_init(void)
     * must be cleared otherwise the interrupt line will be constantly asserted.
     */
     Cy_GPIO_ClearInterrupt(CYBSP_USER_BTN1_PORT,CYBSP_USER_BTN1_PIN);
-    Cy_GPIO_ClearInterrupt(CYBSP_USER_BTN2_PORT,CYBSP_USER_BTN2_PIN);
     NVIC_ClearPendingIRQ(CYBSP_USER_BTN1_IRQ);
-    NVIC_ClearPendingIRQ(CYBSP_USER_BTN2_IRQ);
+    #if defined(CYBSP_USER_BTN2_ENABLED)
+        Cy_GPIO_ClearInterrupt(CYBSP_USER_BTN2_PORT,CYBSP_USER_BTN2_PIN);
+        NVIC_ClearPendingIRQ(CYBSP_USER_BTN2_IRQ);
+    #endif
 
     /* Initialize the interrupt and register interrupt callback */
     btn_interrupt_init_status = Cy_SysInt_Init(&intrCfg, &button_interrupt_handler);
@@ -237,7 +241,7 @@ static void publisher_init(void)
     /* Initialize the user button GPIO */
     user_button_init();
 
-    printf("\nPress the user button (SW2) to publish \"%s\"/\"%s\" on the topic '%s'...\n", 
+    printf("\nPress the USER BTN1 to publish \"%s\"/\"%s\" on the topic '%s'...\n",
            MQTT_DEVICE_ON_MESSAGE, MQTT_DEVICE_OFF_MESSAGE, publish_info.topic);
 }
 
